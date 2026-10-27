@@ -2,5 +2,6 @@
   "name": "iterate-until-done",
   "description": "Implémente une fonctionnalité en autonomie : cadrage, conditions de validation, lots, puis plan, implémentation et relecture par des agentes indépendantes jusqu'à validation.",
   "author": { "name": "Samuel Bouchet" },
-  "repository": "https://github.com/VR2Planets/skill-iterate-until-done"
+  "repository": "https://github.com/VR2Planets/skill-iterate-until-done",
+  "license": "MIT"
 }
