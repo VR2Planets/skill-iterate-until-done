@@ -1,0 +1,14 @@
+{
+  "name": "skill-iterate-until-done",
+  "owner": { "name": "VR2Planets" },
+  "metadata": {
+    "description": "Le skill iterate-until-done pour Claude Code."
+  },
+  "plugins": [
+    {
+      "name": "iterate-until-done",
+      "source": "./",
+      "description": "Implémente une fonctionnalité en autonomie, avec plan, implémentation et relecture par des agentes indépendantes jusqu'à validation."
+    }
+  ]
+}
