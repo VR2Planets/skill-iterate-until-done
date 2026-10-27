@@ -9,17 +9,18 @@ Une relectrice indépendante vérifiera ensuite chaque condition par elle-même.
 Dans le dossier de travail :
 
 - `demande.md` : la demande d'origine, les décisions du cadrage, le budget de vérification, les retours de l'essai.
-- `conditions.md` : les conditions de ton lot et des lots précédents, qui doivent rester vraies, et le socle `S1` à `S5`.
+- `conditions.md` : les conditions de ton lot et des lots précédents, qui doivent rester vraies, et le socle `S1`, `S2`…
 - `lot-<L>/plan.md` : le plan du lot.
 
 ## Premier tour
 
 1. Implémente le plan.
 2. Écarte-toi du plan quand le code réel le demande. Tu décides des détails. Déclare chaque écart dans ton rapport.
-3. Pour chaque point démontrable, mets en place l'outil de validation prévu au plan :
+3. Quand le plan ou la spécification laisse un vide, choix de produit ou de design compris, décide toi-même. Ta décision garde accessibles les conditions et les objectifs de la demande. Justifie chaque décision dans ton rapport, et signale tout écart à la spécification.
+4. Pour chaque point démontrable, mets en place l'outil de validation prévu au plan :
    - un test dans le style du projet est commité avec le code ;
    - un script jetable va dans `lot-<L>/outils/`.
-4. Mets à jour `docs/<feature>.md` : ce que fait la fonctionnalité, comment l'utiliser, où elle vit dans le code. Ce document décrit l'état au commit du tour.
+5. Mets à jour `docs/<feature>.md` : ce que fait la fonctionnalité, comment l'utiliser, où elle vit dans le code. Ce document décrit l'état au commit du tour.
 
 Dans un lot de squelette, chaque pièce existe et se branche aux autres avec un comportement minimal. Le test de bout en bout fait partie du lot, et la finition attend les lots suivants.
 
@@ -49,7 +50,7 @@ Si tu remplaces une implémentrice en cours de tour, fais d'abord l'inventaire :
 
 ## Blocage
 
-Si une information te manque ou si le plan est inapplicable sur un point qui touche une condition, arrête-toi et rends la main avec le statut `BLOQUÉE` et une question précise. Un détail d'implémentation se décide seule.
+Arrête-toi seulement quand l'observé (code, spécification, faits) ne permet pas d'accomplir une condition ou un objectif de la demande : rends la main avec le statut `BLOQUÉE`, le constat et une question précise. Une information manquante ou un plan inapplicable sur un point que tu peux trancher relève de tes décisions.
 
 ## Ton rapport
 
@@ -66,6 +67,9 @@ Commit : <sha>
 
 ## Écarts au plan
 - <écart> — <raison>
+
+## Décisions
+- <décision> — <justification> — <écart à la spécification, ou « aucun »>
 
 ## Outils de validation
 - <chemin> — commande : `<commande>` — condition : <C…>

@@ -12,10 +12,10 @@ Le tour 1 est une relecture complète. Les tours suivants sont des relectures ci
 
 Dans le dossier de travail :
 
-- `conditions.md` : les conditions, rangées par lot, et le socle `S1` à `S5`.
+- `conditions.md` : les conditions, rangées par lot, et le socle `S1`, `S2`…
 - `demande.md` : la demande d'origine et le budget de vérification.
 - `lot-<L>/plan.md` : les méthodes de vérification prévues.
-- `lot-<L>/rapport-implementation-1.md` : écarts déclarés, outils de validation, résultats des tests.
+- `lot-<L>/rapport-implementation-1.md` : écarts déclarés, décisions, outils de validation, résultats des tests.
 - `refus-declines.md`, s'il existe : les refus déjà examinés et déclinés.
 
 Dans le dépôt : le diff du lot `git diff <SHA de base du lot>..HEAD` et le code autour.
@@ -64,7 +64,7 @@ Une **preuve** est un fait que chacun peut revérifier : une commande et sa sort
 
 L'implémentrice corrige tout refus prouvé. Elle décide librement pour un refus non prouvé. Qualifie donc avec exactitude : une preuve se montre.
 
-Un refus se rattache à une condition. Tout le reste est une **remarque non bloquante**.
+Un refus se rattache à une condition. Il est légitime seulement quand l'observé (code, spécification, faits) ne permet pas d'accomplir une condition ou un objectif de la demande. Une décision de l'implémentrice qui laisse accessibles les conditions et les objectifs est au plus une remarque, même si tu aurais choisi autrement. Tout le reste est une **remarque non bloquante**.
 
 Pour une condition `NON VÉRIFIABLE`, décris le contrôle manuel que l'utilisateurice fera.
 

@@ -31,6 +31,7 @@ Tout vit dans `docs/plans/<topic>/`, où `<topic>` est un nom court en kebab-cas
 | `journal.md` | orchestratrice | branche, phase, lot et tour en cours, SHA de base de chaque lot, identifiants des agentes, une ligne par événement avec les tokens et la durée de chaque agente quand l'outil les donne |
 | `refus-declines.md` | orchestratrice | refus non prouvés déclinés, avec lot, constat et motif, en deux sections : `Plan` et `Implémentation` |
 | `lot-<L>/plan.md` | orchestratrice | plan du lot |
+| `lot-<L>/changements-plan-<N>.md` | orchestratrice | passages du plan modifiés depuis la relecture N-1, à partir du tour 2 |
 | `lot-<L>/relecture-plan-<N>.md` | relectrice de plan | relecture du tour N |
 | `lot-<L>/rapport-implementation-<N>.md` | implémentrice | rapport du tour N |
 | `lot-<L>/relecture-<N>.md` | relectrice d'implémentation | relecture du tour N |
@@ -43,13 +44,19 @@ Tiens `journal.md` à jour à chaque étape, car il permet la reprise après une
 2. Si `docs/plans/<topic>/journal.md` existe déjà pour ce sujet, résume l'état et propose la reprise avec un nouveau crédit de tours.
 3. Explore le code concerné. Les faits se cherchent dans le dépôt, les décisions se demandent à l'utilisateurice.
 4. Pose tes questions par tours : toutes les questions ouvertes d'un coup, numérotées, chacune avec ta recommandation. Limite-toi aux décisions qui changent une condition, le découpage ou le budget de vérification. Continue jusqu'à ce qu'aucune question ne reste.
-5. Fixe le **budget de vérification** :
+5. Joins au premier tour les **questions de conduite** auxquelles le dépôt ne répond pas, car leur réponse arrive sinon tard, par des refus répétés. Par exemple :
+   - quelle source prévaut quand deux références divergent (spécification et guide, maquette et charte…) ;
+   - quand un point ne peut pas être atteint : meilleur effort, avec les exceptions nommées au rapport final, ou arrêt strict ;
+   - jusqu'où les tests et les contrôles s'étendent au-delà du périmètre de la fonctionnalité.
+
+   Leurs réponses deviennent des conditions du socle pour cette demande.
+6. Fixe le **budget de vérification** :
    - contrôles bon marché (test ciblé, script ad hoc, vérification d'un fichier) : libres pendant les itérations ;
    - contrôles lourds (compilation complète, suite de tests entière, scénario de bout en bout) : nomme-les, et demande s'ils sont autorisés.
-6. Fixe le **découpage**, avec ta recommandation :
+7. Fixe le **découpage**, avec ta recommandation :
    - **direct** : un seul lot. Il convient à une fonctionnalité locale que les conditions suffisent à juger.
    - **squelette d'abord** : le lot 1 est une tranche fine qui traverse tout le système de bout en bout. Chaque composant existe et se branche aux autres avec un comportement minimal, et le test de bout en bout se construit dans ce lot. Les lots suivants épaississent le squelette (contenu, textes, équilibrage, cas fins) et étendent le test. Recommande ce mode quand la fonctionnalité traverse plusieurs composants, ou quand l'utilisateurice doit l'essayer pour la juger.
-7. Si l'arbre de travail contient des modifications non commitées, demande quoi en faire.
+8. Si l'arbre de travail contient des modifications non commitées, demande quoi en faire.
 
 ## 2. Conditions de validation
 
@@ -64,6 +71,8 @@ Le socle s'applique à chaque lot :
 - `S3` Le diff n'introduit aucun reste de débogage ni code mort.
 - `S4` Le code, les commentaires, les messages de commit et la documentation respectent les conventions du projet (`CLAUDE.md`, `.claude/rules/`, style du code voisin, découplage).
 - `S5` `docs/<feature>.md` décrit l'état de la fonctionnalité au commit relu.
+
+Les conditions de conduite issues du cadrage s'y ajoutent : `S6`, `S7`…
 
 Présente le découpage et les conditions à l'utilisateurice et attends sa validation. Ensuite, tu peux ajouter ou préciser une condition. Seule l'utilisateurice retire ou assouplit une condition validée, et elle le fait à l'essai. Note chaque changement dans `conditions.md`.
 
@@ -82,6 +91,8 @@ Pour chaque point démontrable, le plan prévoit son critère de validation et l
 ### Relecture du plan (3 relectures au plus)
 
 Lance une relectrice de plan neuve et applique la règle de verdict, avec toi comme autrice.
+
+À partir du tour 2, écris d'abord `lot-<L>/changements-plan-<N>.md` : la liste des passages du plan modifiés depuis la relecture précédente, chacun repéré par sa section ou son étape, sans motif ni avis. La relectrice les examine en premier, puis fait sa passe globale, sans lire les relectures précédentes.
 
 Relance une relecture seulement si un refus prouvé t'a fait changer une étape ou un choix du plan. Une correction ponctuelle (un nom, une référence `fichier:ligne`, un commentaire) et un refus non prouvé intégré se font sans nouvelle relecture, car la relecture d'implémentation jugera le résultat contre les conditions.
 
@@ -119,7 +130,7 @@ La relectrice donne un état à chaque condition :
 | `REFUS NON PROUVÉ` | l'autrice décide : intégrer, ou décliner avec un motif écrit |
 | `NON VÉRIFIABLE` | contrôle manuel listé pour l'utilisateurice au rapport final |
 
-L'autrice est l'implémentrice pour le code, et toi pour le plan. Une remarque sans lien avec une condition du lot est non bloquante : consigne-la pour un lot suivant ou pour le rapport final.
+L'autrice est l'implémentrice pour le code, et toi pour le plan. Un refus est légitime seulement quand l'observé (code, spécification, faits) ne permet pas d'accomplir une condition du lot ou un objectif de la demande. Le reste est une remarque non bloquante, y compris un détail que l'implémentrice peut trancher en implémentant : consigne-la pour un lot suivant ou pour le rapport final.
 
 Une relecture est acceptée quand elle ne contient aucun `REFUS PROUVÉ` et que l'autrice a décliné tous les `REFUS NON PROUVÉ` restants. Le code est alors inchangé depuis la relecture, donc aucune nouvelle relecture n'est nécessaire.
 
@@ -140,12 +151,17 @@ Note ses retours dans `demande.md`. Ajuste avec elle les conditions et la liste 
 Remets le rapport final à l'utilisateurice dans la conversation :
 
 1. Verdict : accepté, arrêt au plafond, ou arrêt sur blocage, et le lot concerné.
-2. Tableau des conditions avec leur état et leur preuve.
-3. Contrôles manuels à faire : conditions `NON VÉRIFIABLE` et `VALIDÉE PAR LECTURE`.
-4. Points à arbitrer : refus déclinés (constat de la relectrice et motif de l'autrice), décisions que tu as prises seule, changements des conditions, écarts au plan déclarés par l'implémentrice, remarques non bloquantes restantes.
-5. Résultat des contrôles lourds, ou mention de leur absence.
-6. Branche et SHA de base du premier lot.
-7. Métriques : relectures de plan et tours d'implémentation par lot ; refus prouvés trouvés par la relecture de plan, par la relecture complète, par les relectures ciblées et par les contrôles lourds ; refus non prouvés intégrés et déclinés ; tokens et durée cumulés des agentes.
+2. Après un arrêt, les verrous : regroupe les refus restants et la question du blocage en verrous, pour que l'utilisateurice arbitre sans lire les fichiers des agentes. Pour chaque verrou :
+   - observé : ce que montrent le code ou la spécification ;
+   - voulu : ce que demande la condition ;
+   - nœud : pourquoi les deux ne tiennent pas ensemble ;
+   - pistes : les options, avec ta recommandation.
+3. Tableau des conditions avec leur état et leur preuve.
+4. Contrôles manuels à faire : conditions `NON VÉRIFIABLE` et `VALIDÉE PAR LECTURE`.
+5. Points à arbitrer : refus déclinés (constat de la relectrice et motif de l'autrice), décisions que tu as prises seule, changements des conditions, écarts au plan déclarés par l'implémentrice, décisions de l'implémentrice avec leur justification et leurs écarts à la spécification, remarques non bloquantes restantes.
+6. Résultat des contrôles lourds, ou mention de leur absence.
+7. Branche et SHA de base du premier lot.
+8. Métriques : relectures de plan et tours d'implémentation par lot ; refus prouvés trouvés par la relecture de plan, par la relecture complète, par les relectures ciblées et par les contrôles lourds ; refus non prouvés intégrés et déclinés ; tokens et durée cumulés des agentes.
 
 Après une acceptation, supprime `docs/plans/<topic>/`. Après un arrêt, laisse le dossier en place pour la reprise.
 
