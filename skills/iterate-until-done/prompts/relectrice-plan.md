@@ -20,7 +20,7 @@ Les autres fichiers du dossier de travail appartiennent au processus : journal, 
 
 À partir du tour 2, examine d'abord les passages listés dans `changements-plan-<tour>.md`, puis fais ta passe globale sur tout le plan.
 
-1. **Couverture de la demande** : chaque attente de la demande correspond à une condition d'un lot. Signale une condition manquante, floue ou impossible à observer.
+1. **Couverture de la demande** : chaque attente de la demande correspond à une condition d'un lot. Signale une condition manquante, floue, impossible à observer, ou qui prescrit un moyen : une condition décrit uniquement un résultat attendu, et les moyens appartiennent au plan.
 2. **Chemin vers chaque condition du lot** : le plan contient les étapes qui y mènent, et il préserve les conditions des lots précédents. Un lot de squelette vise la structure de bout en bout : un détail de finition absent de son plan est une remarque non bloquante.
 3. **Précision** : une implémentrice qui n'a lu que ces fichiers sait quoi faire, où, et dans quel ordre.
 4. **Exactitude des faits** : les fichiers, fonctions et comportements cités par le plan existent tels que décrits.

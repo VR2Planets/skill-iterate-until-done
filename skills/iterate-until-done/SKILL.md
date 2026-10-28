@@ -55,14 +55,14 @@ Tiens `journal.md` à jour à chaque étape, car il permet la reprise après une
    - contrôles lourds (compilation complète, suite de tests entière, scénario de bout en bout) : nomme-les, et demande s'ils sont autorisés.
 7. Fixe le **découpage**, avec ta recommandation :
    - **direct** : un seul lot. Il convient à une fonctionnalité locale que les conditions suffisent à juger.
-   - **squelette d'abord** : le lot 1 est une tranche fine qui traverse tout le système de bout en bout. Chaque composant existe et se branche aux autres avec un comportement minimal, et le test de bout en bout se construit dans ce lot. Les lots suivants épaississent le squelette (contenu, textes, équilibrage, cas fins) et étendent le test. Recommande ce mode quand la fonctionnalité traverse plusieurs composants, ou quand l'utilisateurice doit l'essayer pour la juger.
+   - **squelette d'abord** : le lot 1 est une tranche fine qui traverse tout le système de bout en bout. Chaque composant existe et se branche aux autres avec un comportement minimal. Les lots suivants épaississent le squelette (contenu, textes, équilibrage, cas fins). Recommande ce mode quand la fonctionnalité traverse plusieurs composants, ou quand l'utilisateurice doit l'essayer pour la juger.
 8. Si l'arbre de travail contient des modifications non commitées, demande quoi en faire.
 
 ## 2. Conditions de validation
 
-Écris `conditions.md` à partir de la demande et du cadrage, avant tout plan. Une condition est un énoncé observable de ce qui est vrai quand le lot est terminé. Elle décrit un résultat. Le moyen de la vérifier appartient au plan.
+Écris `conditions.md` à partir de la demande et du cadrage, avant tout plan. Une condition est un énoncé observable de ce qui est vrai quand le lot est terminé. Elle décrit uniquement un résultat attendu. Les moyens d'y arriver et de le vérifier (fichiers, structure du code, algorithme, bibliothèque, test, outil) appartiennent au plan. Par exemple, « la commande `list` affiche les entrées triées par date » est une condition, et « trier avec `sorted` dans `list.py` » est un moyen. Quand la demande porte elle-même sur un moyen, par exemple remplacer une bibliothèque, ce moyen est le résultat attendu.
 
-Numérote les conditions `C1`, `C2`… et range-les par lot. Un lot de squelette porte des conditions de structure : le chemin complet fonctionne, chaque pièce est présente, et un test automatique le prouve. Les détails de finition appartiennent aux lots suivants. Une condition acquise à un lot reste due aux lots suivants.
+Numérote les conditions `C1`, `C2`… et range-les par lot. Un lot de squelette porte des conditions de structure : le chemin complet fonctionne de bout en bout, et chaque pièce est présente. Les détails de finition appartiennent aux lots suivants. Une condition acquise à un lot reste due aux lots suivants.
 
 Le socle s'applique à chaque lot :
 
@@ -86,7 +86,9 @@ Au premier lot, crée la branche `feature/<topic>`, ou suis la convention visibl
 
 Écris `lot-<L>/plan.md`. Une implémentrice qui n'a pas vu cette conversation doit pouvoir l'exécuter : fichiers à créer ou modifier, comportements attendus, ordre des étapes, faits du code sur lesquels le plan s'appuie. Reprends les remarques non bloquantes des lots précédents qui concernent ce lot.
 
-Pour chaque point démontrable, le plan prévoit son critère de validation et l'outil qui le vérifie, existant ou à développer, dans le respect du budget. Un point sans démonstration possible reste dans le plan : la relecture le jugera au mieux.
+Pour chaque point démontrable, le plan propose son critère de validation et l'outil qui le vérifie, existant ou à développer, dans le respect du budget. Le plan d'un lot de squelette propose en général un test de bout en bout, que les lots suivants étendent. Un point sans démonstration possible reste dans le plan : la relecture le jugera au mieux.
+
+Les moyens du plan sont des suggestions. L'implémentrice peut en choisir d'autres qui atteignent les mêmes conditions, à condition de déclarer l'écart. Seules les conditions engagent.
 
 ### Relecture du plan (3 relectures au plus)
 

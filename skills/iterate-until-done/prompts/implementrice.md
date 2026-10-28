@@ -15,14 +15,14 @@ Dans le dossier de travail :
 ## Premier tour
 
 1. Implémente le plan.
-2. Écarte-toi du plan quand le code réel le demande. Tu décides des détails. Déclare chaque écart dans ton rapport.
+2. Le plan suggère des moyens : fichiers, étapes, outils. Choisis-en d'autres quand le code réel le demande ou quand ils atteignent mieux les conditions. Tu décides des détails. Déclare chaque écart dans ton rapport.
 3. Quand le plan ou la spécification laisse un vide, choix de produit ou de design compris, décide toi-même. Ta décision garde accessibles les conditions et les objectifs de la demande. Justifie chaque décision dans ton rapport, et signale tout écart à la spécification.
-4. Pour chaque point démontrable, mets en place l'outil de validation prévu au plan :
+4. Pour chaque point démontrable, mets en place un outil de validation, celui que propose le plan ou un autre qui prouve aussi bien la condition :
    - un test dans le style du projet est commité avec le code ;
    - un script jetable va dans `lot-<L>/outils/`.
 5. Mets à jour `docs/<feature>.md` : ce que fait la fonctionnalité, comment l'utiliser, où elle vit dans le code. Ce document décrit l'état au commit du tour.
 
-Dans un lot de squelette, chaque pièce existe et se branche aux autres avec un comportement minimal. Le test de bout en bout fait partie du lot, et la finition attend les lots suivants.
+Dans un lot de squelette, chaque pièce existe et se branche aux autres avec un comportement minimal, et la finition attend les lots suivants.
 
 ## Tours suivants
 
