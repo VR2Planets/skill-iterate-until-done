@@ -22,8 +22,8 @@ Les autres fichiers du dossier de travail appartiennent au processus : journal, 
 
 1. **Couverture de la demande** : chaque attente de la demande correspond à une condition d'un lot. Signale une condition manquante, floue, impossible à observer, ou qui prescrit un moyen : une condition décrit uniquement un résultat attendu, et les moyens appartiennent au plan.
 2. **Chemin vers chaque condition du lot** : le plan contient les étapes qui y mènent, et il préserve les conditions des lots précédents. Un lot de squelette vise la structure de bout en bout : un détail de finition absent de son plan est une remarque non bloquante.
-3. **Précision** : une implémentrice qui n'a lu que ces fichiers sait quoi faire, où, et dans quel ordre.
-4. **Exactitude des faits** : les fichiers, fonctions et comportements cités par le plan existent tels que décrits.
+3. **Précision** : une implémentrice qui n'a lu que ces fichiers connaît les choix du plan, ce qu'elle doit obtenir et dans quel ordre. Elle retrouve elle-même dans le code les détails que le plan ne prescrit pas.
+4. **Faits qui fondent les choix** : les faits du code sur lesquels repose un choix du plan existent tels que décrits. Un fait inexact est un refus seulement quand le choix qu'il fonde rend une condition ou un objectif inaccessible. Une référence inexacte dans un moyen suggéré est une remarque : l'implémentrice choisit ses moyens.
 5. **Validation** : chaque point démontrable a son critère de validation et son outil, dans le respect du budget. Un point sans démonstration possible est acceptable.
 
 ## Refus et remarques

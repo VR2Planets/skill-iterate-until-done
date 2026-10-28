@@ -26,7 +26,7 @@ Tout vit dans `docs/plans/<topic>/`, où `<topic>` est un nom court en kebab-cas
 
 | Fichier | Autrice | Contenu |
 |---|---|---|
-| `demande.md` | orchestratrice | demande d'origine mot pour mot, décisions du cadrage, budget de vérification, retours de l'essai |
+| `demande.md` | orchestratrice | demande d'origine mot pour mot, faits relevés et décisions du cadrage, budget de vérification, retours de l'essai |
 | `conditions.md` | orchestratrice | conditions numérotées et rangées par lot, historique des changements |
 | `journal.md` | orchestratrice | branche, phase, lot et tour en cours, SHA de base de chaque lot, identifiants des agentes, une ligne par événement avec les tokens et la durée de chaque agente quand l'outil les donne |
 | `refus-declines.md` | orchestratrice | refus non prouvés déclinés, avec lot, constat et motif, en deux sections : `Plan` et `Implémentation` |
@@ -42,7 +42,11 @@ Tiens `journal.md` à jour à chaque étape, car il permet la reprise après une
 
 1. Le dépôt est un dépôt git. Dans le cas contraire, arrête-toi et demande comment procéder.
 2. Si `docs/plans/<topic>/journal.md` existe déjà pour ce sujet, résume l'état et propose la reprise avec un nouveau crédit de tours.
-3. Explore le code concerné. Les faits se cherchent dans le dépôt, les décisions se demandent à l'utilisateurice.
+3. Explore le code concerné. Les faits se cherchent dans le dépôt, les décisions se demandent à l'utilisateurice. Relève en particulier les faits qui bornent les conditions, et note-les dans `demande.md` :
+   - où le résultat s'exécute et comment on y accède : scène, page, plateforme, environnement, entrée de l'utilisateurice ;
+   - qui appelle le code touché, et ce qui en dépend ;
+   - quels tests couvrent déjà ce comportement ;
+   - quelle référence fait foi : spécification, maquette, comportement existant.
 4. Pose tes questions par tours : toutes les questions ouvertes d'un coup, numérotées, chacune avec ta recommandation. Limite-toi aux décisions qui changent une condition, le découpage ou le budget de vérification. Continue jusqu'à ce qu'aucune question ne reste.
 5. Joins au premier tour les **questions de conduite** auxquelles le dépôt ne répond pas, car leur réponse arrive sinon tard, par des refus répétés. Par exemple :
    - quelle source prévaut quand deux références divergent (spécification et guide, maquette et charte…) ;
@@ -84,7 +88,7 @@ Au premier lot, crée la branche `feature/<topic>`, ou suis la convention visibl
 
 ### Plan
 
-Écris `lot-<L>/plan.md`. Une implémentrice qui n'a pas vu cette conversation doit pouvoir l'exécuter : fichiers à créer ou modifier, comportements attendus, ordre des étapes, faits du code sur lesquels le plan s'appuie. Reprends les remarques non bloquantes des lots précédents qui concernent ce lot.
+Écris `lot-<L>/plan.md`. Une implémentrice qui n'a pas vu cette conversation doit pouvoir l'exécuter : choix d'architecture, comportements attendus, décisions de produit ou de design, ordre des étapes, et les faits du code sur lesquels reposent ces choix. Cite un fichier, une fonction ou une ligne quand un fait fonde un choix. Le reste des moyens se décrit au niveau où l'implémentrice le retrouvera dans le code, car chaque détail prescrit est un détail de plus à relire et à contredire. Reprends les remarques non bloquantes des lots précédents qui concernent ce lot.
 
 Pour chaque point démontrable, le plan propose son critère de validation et l'outil qui le vérifie, existant ou à développer, dans le respect du budget. Le plan d'un lot de squelette propose en général un test de bout en bout, que les lots suivants étendent. Un point sans démonstration possible reste dans le plan : la relecture le jugera au mieux.
 
@@ -95,6 +99,8 @@ Les moyens du plan sont des suggestions. L'implémentrice peut en choisir d'autr
 Lance une relectrice de plan neuve et applique la règle de verdict, avec toi comme autrice.
 
 À partir du tour 2, écris d'abord `lot-<L>/changements-plan-<N>.md` : la liste des passages du plan modifiés depuis la relecture précédente, chacun repéré par sa section ou son étape, sans motif ni avis. La relectrice les examine en premier, puis fait sa passe globale, sans lire les relectures précédentes.
+
+Pour corriger un refus, change le choix qu'il met en cause, et ajoute un détail de moyen seulement si le refus porte sur ce détail.
 
 Relance une relecture seulement si un refus prouvé t'a fait changer une étape ou un choix du plan. Une correction ponctuelle (un nom, une référence `fichier:ligne`, un commentaire) et un refus non prouvé intégré se font sans nouvelle relecture, car la relecture d'implémentation jugera le résultat contre les conditions.
 
