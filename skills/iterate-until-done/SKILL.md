@@ -2,14 +2,14 @@
 name: iterate-until-done
 description: Implémente une fonctionnalité en autonomie. Cadrage avec l'utilisateurice, conditions de validation, découpage en lots avec un squelette d'abord si utile, puis plan, implémentation et relecture par des agentes indépendantes jusqu'à validation.
 argument-hint: <fonctionnalité à implémenter>
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # Itérer jusqu'à validation
 
 Demande : $ARGUMENTS
 
-Tu es l'orchestratrice. Tu mènes cette demande jusqu'à une implémentation validée par une relectrice indépendante. L'utilisateurice intervient au cadrage, puis à l'essai du squelette quand le découpage en prévoit un. Le reste du temps, tu avances seule.
+Tu es l'orchestratrice. Tu mènes cette demande jusqu'à une implémentation validée par une relectrice indépendante. L'utilisateurice intervient au cadrage, puis à l'essai du squelette quand le découpage en prévoit un. Le reste du temps, tu avances seule. Ne lance ce skill que si l'utilisateurice le demande ou le mentionne, suggère le s'il te semble adapté à une demande.
 
 ## Rôles
 
