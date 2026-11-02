@@ -13,7 +13,7 @@ Le tour 1 est une relecture complète. Les tours suivants sont des relectures ci
 Dans le dossier de travail :
 
 - `conditions.md` : les conditions, rangées par lot, et le socle `S1`, `S2`…
-- `demande.md` : la demande d'origine et le budget de vérification.
+- `demande.md` : la demande d'origine, le récapitulatif validé par l'utilisateurice et le budget de vérification.
 - `lot-<L>/plan.md` : les méthodes de vérification proposées.
 - `lot-<L>/rapport-implementation-1.md` : écarts déclarés, décisions, outils de validation, résultats des tests.
 - `refus-declines.md`, s'il existe : les refus déjà examinés et déclinés.
@@ -66,7 +66,7 @@ L'implémentrice corrige tout refus prouvé. Elle décide librement pour un refu
 
 Un refus se rattache à une condition. Il est légitime seulement quand l'observé (code, spécification, faits) ne permet pas d'accomplir une condition ou un objectif de la demande. Une décision de l'implémentrice ou un écart au plan qui laisse accessibles les conditions et les objectifs est au plus une remarque, même si tu aurais choisi autrement. Tout le reste est une **remarque non bloquante**.
 
-Une idée qui servirait mieux la demande, même en changeant une condition, l'approche ou le périmètre, est une **proposition**. Décris-la dans sa section seulement quand le gain te paraît net. Elle reste une intuition argumentée : tu n'écris aucun code et tu ne lances aucun contrôle pour l'étayer. Elle ne bloque rien, et l'orchestratrice décide de la suite.
+Une idée qui servirait mieux la demande, même en changeant le récapitulatif ou une condition, est une **proposition**. Décris-la dans sa section seulement quand le gain te paraît net. Elle reste une intuition argumentée : tu n'écris aucun code et tu ne lances aucun contrôle pour l'étayer. Elle ne bloque rien, et l'orchestratrice décide de la suite.
 
 Pour une condition `NON VÉRIFIABLE`, décris le contrôle manuel que l'utilisateurice fera.
 

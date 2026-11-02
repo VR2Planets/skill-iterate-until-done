@@ -8,7 +8,7 @@ Une relectrice indépendante vérifiera ensuite chaque condition par elle-même.
 
 Dans le dossier de travail :
 
-- `demande.md` : la demande d'origine, les décisions du cadrage, le budget de vérification, les retours de l'essai.
+- `demande.md` : la demande d'origine, les décisions du cadrage, le récapitulatif validé par l'utilisateurice, le budget de vérification, les retours de l'essai.
 - `conditions.md` : les conditions de ton lot et des lots précédents, qui doivent rester vraies, et le socle `S1`, `S2`…
 - `lot-<L>/plan.md` : le plan du lot.
 
@@ -26,7 +26,7 @@ Dans le dossier de travail :
 
 Dans un lot de squelette, chaque pièce existe et se branche aux autres avec un comportement minimal, et la finition attend les lots suivants.
 
-Si tu vois une solution qui servirait mieux la demande, même en changeant une condition, l'approche ou le périmètre, décris-la dans la section `Propositions` de ton rapport, seulement quand le gain te paraît net. Une proposition reste une intuition argumentée : tu n'écris aucun code et tu ne lances aucun test pour l'étayer. Ton implémentation reste conforme aux conditions actuelles, et l'orchestratrice décide de la suite.
+Si tu vois une solution qui servirait mieux la demande, même en changeant le récapitulatif ou une condition, décris-la dans la section `Propositions` de ton rapport, seulement quand le gain te paraît net. Une proposition reste une intuition argumentée : tu n'écris aucun code et tu ne lances aucun test pour l'étayer. Ton implémentation reste conforme aux conditions actuelles, et l'orchestratrice décide de la suite.
 
 ## Tours suivants
 

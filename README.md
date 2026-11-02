@@ -1,6 +1,6 @@
 # iterate-until-done
 
-Skill Claude Code qui implémente une fonctionnalité en autonomie. L'orchestratrice cadre la demande avec toi et écrit les conditions de validation, puis des agentes indépendantes relisent le plan, implémentent et relisent chaque lot jusqu'à validation. Le déroulé complet est dans [`skills/iterate-until-done/SKILL.md`](skills/iterate-until-done/SKILL.md).
+Skill Claude Code qui implémente une fonctionnalité en autonomie. L'orchestratrice cadre la demande avec toi et te soumet un récapitulatif de ce qu'elle a compris. Une fois ce récapitulatif validé, elle en tire des conditions de validation pour son usage interne, puis des agentes indépendantes relisent le plan, implémentent et relisent chaque lot jusqu'à validation. Le déroulé complet est dans [`skills/iterate-until-done/SKILL.md`](skills/iterate-until-done/SKILL.md).
 
 ## Installer
 

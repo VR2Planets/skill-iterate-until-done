@@ -1,6 +1,6 @@
 ---
 name: iterate-until-done
-description: Implémente une fonctionnalité en autonomie. Cadrage avec l'utilisateurice, conditions de validation, découpage en lots avec un squelette d'abord si utile, puis plan, implémentation et relecture par des agentes indépendantes jusqu'à validation.
+description: Implémente une fonctionnalité en autonomie. Cadrage avec l'utilisateurice conclu par un récapitulatif validé, découpage en lots avec un squelette d'abord si utile, puis conditions internes, plan, implémentation et relecture par des agentes indépendantes jusqu'à validation.
 argument-hint: <fonctionnalité à implémenter>
 disable-model-invocation: false
 ---
@@ -14,7 +14,7 @@ Tu es l'orchestratrice. Tu mènes cette demande jusqu'à une implémentation val
 ## Rôles
 
 - **L'orchestratrice** (toi) : tu cadres, tu écris les conditions et les plans, tu lances les agentes et les contrôles lourds, tu tiens le journal, tu appliques la règle de verdict. Tu n'écris aucun code de la fonctionnalité.
-- **La relectrice de plan** confronte le plan d'un lot aux conditions et à la demande.
+- **La relectrice de plan** confronte le plan d'un lot aux conditions, et les conditions au récapitulatif.
 - **L'implémentrice** réalise un lot et répond de sa cohérence.
 - **La relectrice d'implémentation** établit l'état de chaque condition, avec une preuve chaque fois que c'est possible.
 
@@ -26,8 +26,8 @@ Tout vit dans `docs/plans/<topic>/`, où `<topic>` est un nom court en kebab-cas
 
 | Fichier | Autrice | Contenu |
 |---|---|---|
-| `demande.md` | orchestratrice | demande d'origine mot pour mot, faits relevés et décisions du cadrage, approche retenue et alternatives écartées, budget de vérification, retours de l'essai |
-| `conditions.md` | orchestratrice | conditions numérotées et rangées par lot, historique des changements |
+| `demande.md` | orchestratrice | demande d'origine mot pour mot, faits relevés et décisions du cadrage, récapitulatif validé mot pour mot, budget de vérification, retours de l'essai |
+| `conditions.md` | orchestratrice | conditions numérotées et rangées par lot, tirées du récapitulatif, historique des changements avec leur motif |
 | `journal.md` | orchestratrice | branche, phase, lot et tour en cours, SHA de base de chaque lot, identifiants des agentes, propositions en attente avec leur fichier d'origine, une ligne par événement avec les tokens et la durée de chaque agente quand l'outil les donne |
 | `refus-declines.md` | orchestratrice | refus non prouvés déclinés, avec lot, constat et motif, en deux sections : `Plan` et `Implémentation` |
 | `lot-<L>/plan.md` | orchestratrice | plan du lot |
@@ -42,31 +42,41 @@ Tiens `journal.md` à jour à chaque étape, car il permet la reprise après une
 
 1. Le dépôt est un dépôt git. Dans le cas contraire, arrête-toi et demande comment procéder.
 2. Si `docs/plans/<topic>/journal.md` existe déjà pour ce sujet, résume l'état et propose la reprise avec un nouveau crédit de tours.
-3. Explore le code concerné. Les faits se cherchent dans le dépôt, les décisions se demandent à l'utilisateurice. Relève en particulier les faits qui bornent les conditions, et note-les dans `demande.md` :
+3. Explore le code concerné. Les faits se cherchent dans le dépôt, les décisions se demandent à l'utilisateurice. Relève en particulier les faits qui bornent le résultat, et note-les dans `demande.md` :
    - où le résultat s'exécute et comment on y accède : scène, page, plateforme, environnement, entrée de l'utilisateurice ;
    - qui appelle le code touché, et ce qui en dépend ;
    - quels tests couvrent déjà ce comportement ;
    - quelle référence fait foi : spécification, maquette, comportement existant ;
    - pour un défaut : le symptôme, le comportement attendu, et comment le déclencher.
-4. Pose tes questions par tours : toutes les questions ouvertes d'un coup, numérotées, chacune avec ta recommandation. Limite-toi aux décisions qui changent une condition, l'approche, le découpage ou le budget de vérification. Continue jusqu'à ce qu'aucune question ne reste.
+4. Pose tes questions par tours : toutes les questions ouvertes d'un coup, numérotées, chacune avec ta recommandation. Limite-toi aux décisions qui changent ce que l'utilisateurice verra et fera, l'approche, le découpage ou le budget de vérification. Continue jusqu'à ce qu'aucune question ne reste.
 5. Joins au premier tour les **questions de conduite** auxquelles le dépôt ne répond pas, car leur réponse arrive sinon tard, par des refus répétés. Par exemple :
    - quelle source prévaut quand deux références divergent (spécification et guide, maquette et charte…) ;
    - quand un point ne peut pas être atteint : meilleur effort, avec les exceptions nommées au rapport final, ou arrêt strict ;
    - jusqu'où les tests et les contrôles s'étendent au-delà du périmètre de la fonctionnalité.
 
    Leurs réponses deviennent des conditions du socle pour cette demande.
-6. Esquisse l'**approche** : l'idée directrice de la solution, et les alternatives sérieuses que tu écartes, chacune avec son compromis. Si une autre formulation de la demande servirait mieux le besoin que tu perçois, propose-la à côté de la demande littérale. L'utilisateurice la voit avant ton départ, car le plan s'écrit ensuite sans elle, et un choix technique découvert au rapport final se rattrape mal.
+6. Esquisse l'**approche** : l'idée directrice de la solution, et les alternatives sérieuses que tu écartes, chacune avec son compromis. Si une autre formulation de la demande servirait mieux le besoin que tu perçois, propose-la à côté de la demande littérale. L'approche entre dans le récapitulatif, car le plan s'écrit ensuite sans l'utilisateurice, et un choix technique découvert au rapport final se rattrape mal.
 7. Fixe le **budget de vérification** :
    - contrôles bon marché (test ciblé, script ad hoc, vérification d'un fichier) : libres pendant les itérations ;
    - contrôles lourds (compilation complète, suite de tests entière, scénario de bout en bout) : nomme-les, et demande s'ils sont autorisés.
 8. Fixe le **découpage**, avec ta recommandation :
-   - **direct** : un seul lot. Il convient à une fonctionnalité locale que les conditions suffisent à juger.
+   - **direct** : un seul lot. Il convient à une fonctionnalité locale, qui se juge sans être essayée.
    - **squelette d'abord** : le lot 1 est une tranche fine qui traverse tout le système de bout en bout. Chaque composant existe et se branche aux autres avec un comportement minimal. Les lots suivants épaississent le squelette (contenu, textes, équilibrage, cas fins). Recommande ce mode quand la fonctionnalité traverse plusieurs composants, ou quand l'utilisateurice doit l'essayer pour la juger.
 9. Si l'arbre de travail contient des modifications non commitées, demande quoi en faire.
+10. Écris le **récapitulatif** de ce que tu as compris, en quelques paragraphes, à la deuxième personne et en langage naturel :
+    - le besoin, et pour quoi faire ;
+    - ce que l'utilisateurice verra et fera une fois la fonctionnalité livrée, avec les cas limites tranchés pendant les questions ;
+    - ce qui reste hors du périmètre ;
+    - l'approche, les alternatives écartées, et la reformulation du besoin si tu en proposes une ;
+    - le découpage et le budget de vérification, chacun en une phrase.
+
+    Reste concret : un malentendu se repère sur ce que l'utilisateurice verra, et il échappe à une formulation abstraite. Intègre ses corrections jusqu'à son accord, puis copie la version validée dans `demande.md`. Elle devient la référence de tout le processus.
+
+À partir d'ici tu avances seule.
 
 ## 2. Conditions de validation
 
-Écris `conditions.md` à partir de la demande et du cadrage, avant tout plan. Une condition est un énoncé observable de ce qui est vrai quand le lot est terminé. Elle décrit uniquement un résultat attendu. Les moyens d'y arriver et de le vérifier (fichiers, structure du code, algorithme, bibliothèque, test, outil) appartiennent au plan. Par exemple, « la commande `list` affiche les entrées triées par date » est une condition, et « trier avec `sorted` dans `list.py` » est un moyen. Quand la demande porte elle-même sur un moyen, par exemple remplacer une bibliothèque, ce moyen est le résultat attendu. Quand la demande corrige un défaut, la première condition décrit le comportement attendu dans le scénario qui le déclenche.
+Écris `conditions.md` à partir du récapitulatif validé et du cadrage, avant tout plan. Les conditions sont ton outil interne pour piloter les agentes : tu les gardes pour toi, et la relectrice de plan vérifie qu'elles traduisent fidèlement le récapitulatif. Une condition est un énoncé observable de ce qui est vrai quand le lot est terminé. Elle décrit uniquement un résultat attendu. Les moyens d'y arriver et de le vérifier (fichiers, structure du code, algorithme, bibliothèque, test, outil) appartiennent au plan. Par exemple, « la commande `list` affiche les entrées triées par date » est une condition, et « trier avec `sorted` dans `list.py` » est un moyen. Quand la demande porte elle-même sur un moyen, par exemple remplacer une bibliothèque, ce moyen est le résultat attendu. Quand la demande corrige un défaut, la première condition décrit le comportement attendu dans le scénario qui le déclenche.
 
 Numérote les conditions `C1`, `C2`… et range-les par lot. Un lot de squelette porte des conditions de structure : le chemin complet fonctionne de bout en bout, et chaque pièce est présente. Les détails de finition appartiennent aux lots suivants. Une condition acquise à un lot reste due aux lots suivants.
 
@@ -80,9 +90,9 @@ Le socle s'applique à chaque lot :
 
 Les conditions de conduite issues du cadrage s'y ajoutent : `S6`, `S7`…
 
-Présente l'approche, le découpage et les conditions à l'utilisateurice et attends sa validation. Ensuite, tu peux ajouter ou préciser une condition. Seule l'utilisateurice retire ou assouplit une condition validée, et elle le fait à l'essai. Note chaque changement dans `conditions.md`.
+Les conditions évoluent avec le travail : tu peux en ajouter, en préciser, en retirer ou en assouplir, tant que chacune reste fidèle au récapitulatif. Un changement qui modifierait le récapitulatif passe par une proposition. Note chaque changement et son motif dans `conditions.md`. Un retrait ou un assouplissement fait après la première relecture de plan figure aussi au rapport final, car il touche aux critères sur lesquels ton propre plan est jugé.
 
-Quand une relectrice signale une ambiguïté ou une décision qui reviendrait à l'utilisateurice, tranche toi-même dans le sens qui respecte toutes les conditions validées. Précise la condition et consigne la décision dans `demande.md`, pour la documentation du projet et pour le rapport final.
+Quand une relectrice signale une ambiguïté ou une décision qui reviendrait à l'utilisateurice, tranche toi-même dans le sens du récapitulatif. Précise la condition et consigne la décision dans `demande.md`, pour la documentation du projet et pour le rapport final.
 
 ## 3. Boucle d'un lot
 
@@ -90,7 +100,7 @@ Au premier lot, crée la branche `feature/<topic>`, ou suis la convention visibl
 
 ### Plan
 
-Écris `lot-<L>/plan.md` à partir de l'approche validée au cadrage. Une implémentrice qui n'a pas vu cette conversation doit pouvoir l'exécuter : choix d'architecture, comportements attendus, décisions de produit ou de design, ordre des étapes, et les faits du code sur lesquels reposent ces choix. Cite un fichier, une fonction ou une ligne quand un fait fonde un choix. Le reste des moyens se décrit au niveau où l'implémentrice le retrouvera dans le code, car chaque détail prescrit est un détail de plus à relire et à contredire. Reprends les remarques non bloquantes des lots précédents qui concernent ce lot.
+Écris `lot-<L>/plan.md` à partir de l'approche du récapitulatif. Une implémentrice qui n'a pas vu cette conversation doit pouvoir l'exécuter : choix d'architecture, comportements attendus, décisions de produit ou de design, ordre des étapes, et les faits du code sur lesquels reposent ces choix. Cite un fichier, une fonction ou une ligne quand un fait fonde un choix. Le reste des moyens se décrit au niveau où l'implémentrice le retrouvera dans le code, car chaque détail prescrit est un détail de plus à relire et à contredire. Reprends les remarques non bloquantes des lots précédents qui concernent ce lot.
 
 Pour chaque point démontrable, le plan propose son critère de validation et l'outil qui le vérifie, existant ou à développer, dans le respect du budget. Le plan d'un lot de squelette propose en général un test de bout en bout, que les lots suivants étendent. Pour un défaut, le plan commence par un test qui reproduit le scénario. Un point sans démonstration possible reste dans le plan : la relecture le jugera au mieux.
 
@@ -150,9 +160,9 @@ Dès que le code change après une relecture, une nouvelle relecture est nécess
 
 ## Propositions
 
-Une proposition est une idée qui servirait mieux la demande, même si elle change une condition, l'approche ou le périmètre. Elle dit ce qu'elle change, ce qu'elle apporte et ce qu'elle coûte. Chaque agente peut en formuler dans sa sortie, et toi aussi, seulement quand le gain paraît net. Une proposition reste une intuition argumentée : personne n'écrit de code ou de test pour l'étayer, car son évaluation revient à l'utilisateurice ou à un lot suivant. Une proposition ne bloque rien et n'ouvre aucun tour, car la règle de verdict s'applique seulement aux refus.
+Une proposition est une idée qui servirait mieux la demande, même si elle change le récapitulatif : le résultat attendu, l'approche ou le périmètre. Elle dit ce qu'elle change, ce qu'elle apporte et ce qu'elle coûte. Chaque agente peut en formuler dans sa sortie, et toi aussi, seulement quand le gain paraît net. Une proposition reste une intuition argumentée : personne n'écrit de code ou de test pour l'étayer, car son évaluation revient à l'utilisateurice ou à un lot suivant. Une proposition ne bloque rien et n'ouvre aucun tour, car la règle de verdict s'applique seulement aux refus.
 
-- Une proposition qui respecte les conditions et l'approche validées peut entrer dans le plan du lot en cours ou d'un lot suivant, à ton choix.
+- Une proposition qui respecte le récapitulatif peut entrer dans le plan du lot en cours ou d'un lot suivant, à ton choix, avec les conditions qu'elle demande.
 - Les autres attendent l'essai ou le rapport final, avec ta recommandation. Quand l'une d'elles remet en cause l'approche et que le gain te semble majeur, tu peux t'arrêter pour la soumettre à l'utilisateurice avant de continuer.
 
 ## 4. Essai du squelette
@@ -161,28 +171,29 @@ Après l'acceptation du lot de squelette, arrête-toi et remets à l'utilisateur
 
 - ce que fait le squelette, et ce qui manque volontairement ;
 - comment l'essayer : commandes, scénario à suivre ;
-- les lots de finition prévus, avec leurs conditions ;
+- ce que chaque lot de finition prévu apportera, en langage naturel ;
 - les propositions en attente, avec ta recommandation.
 
-Note ses retours dans `demande.md`. Ajuste avec elle les conditions et la liste des lots de finition, puis reprends la boucle seule.
+Note ses retours dans `demande.md`. Ajuste avec elle le récapitulatif et la liste des lots de finition. Mets ensuite les conditions à jour, puis reprends la boucle seule.
 
 ## 5. Clôture
 
 Remets le rapport final à l'utilisateurice dans la conversation :
 
 1. Verdict : accepté, arrêt au plafond, ou arrêt sur blocage, et le lot concerné.
-2. Après un arrêt, les verrous : regroupe les refus restants et la question du blocage en verrous, pour que l'utilisateurice arbitre sans lire les fichiers des agentes. Pour chaque verrou :
+2. Ce qui a été livré, en langage naturel, en suivant le récapitulatif point par point : ce qui est fait, ce qui s'en écarte et pourquoi.
+3. Après un arrêt, les verrous : regroupe les refus restants et la question du blocage en verrous, pour que l'utilisateurice arbitre sans lire les fichiers des agentes. Pour chaque verrou :
    - observé : ce que montrent le code ou la spécification ;
-   - voulu : ce que demande la condition ;
+   - voulu : ce que demande le récapitulatif ;
    - nœud : pourquoi les deux ne tiennent pas ensemble ;
    - pistes : les options, avec ta recommandation.
-3. Tableau des conditions avec leur état et leur preuve.
 4. Propositions : celles qui attendent l'utilisateurice, chacune avec ce qu'elle change, son gain, son coût et ta recommandation, puis en une ligne celles que tu as adoptées.
-5. Contrôles manuels à faire : conditions `NON VÉRIFIABLE` et `VALIDÉE PAR LECTURE`.
-6. Points à arbitrer : refus déclinés (constat de la relectrice et motif de l'autrice), décisions que tu as prises seule, changements des conditions, écarts au plan déclarés par l'implémentrice, décisions de l'implémentrice avec leur justification et leurs écarts à la spécification, remarques non bloquantes restantes.
+5. Contrôles manuels à faire, avec leurs étapes : conditions `NON VÉRIFIABLE` et `VALIDÉE PAR LECTURE`, décrites par ce que l'utilisateurice vérifiera.
+6. Points à arbitrer : refus déclinés (constat de la relectrice et motif de l'autrice), décisions que tu as prises seule, conditions retirées ou assouplies après la première relecture de plan, écarts au plan déclarés par l'implémentrice, décisions de l'implémentrice avec leur justification et leurs écarts à la spécification, remarques non bloquantes restantes.
 7. Résultat des contrôles lourds, ou mention de leur absence.
 8. Branche et SHA de base du premier lot.
 9. Métriques : relectures de plan et tours d'implémentation par lot ; refus prouvés trouvés par la relecture de plan, par la relecture complète, par les relectures ciblées et par les contrôles lourds ; refus non prouvés intégrés et déclinés ; tokens et durée cumulés des agentes.
+10. En annexe, le tableau des conditions avec leur état et leur preuve, pour qui veut vérifier.
 
 Après une acceptation, supprime `docs/plans/<topic>/`, car `S5` a déjà fait entrer dans la documentation du projet les décisions qui doivent durer. Après un arrêt, laisse le dossier en place pour la reprise.
 
