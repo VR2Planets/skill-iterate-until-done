@@ -25,6 +25,7 @@ Les autres fichiers du dossier de travail appartiennent au processus : journal, 
 3. **Précision** : une implémentrice qui n'a lu que ces fichiers connaît les choix du plan, ce qu'elle doit obtenir et dans quel ordre. Elle retrouve elle-même dans le code les détails que le plan ne prescrit pas.
 4. **Faits qui fondent les choix** : les faits du code sur lesquels repose un choix du plan existent tels que décrits. Un fait inexact est un refus seulement quand le choix qu'il fonde rend une condition ou un objectif inaccessible. Une référence inexacte dans un moyen suggéré est une remarque : l'implémentrice choisit ses moyens.
 5. **Validation** : chaque point démontrable a son critère de validation et son outil, dans le respect du budget. Un point sans démonstration possible est acceptable.
+6. **Approche** : si tu vois une approche nettement plus simple ou plus solide pour la même demande, décris-la en proposition, même si elle change une condition ou l'approche validée au cadrage.
 
 ## Refus et remarques
 
@@ -39,7 +40,7 @@ L'autrice corrige tout refus prouvé. Elle décide librement pour un refus non p
 
 Un refus listé dans `refus-declines.md` revient seulement si tu apportes une preuve.
 
-Tout ce qui ne se rattache à aucune condition est une **remarque non bloquante**.
+Une idée qui servirait mieux la demande est une **proposition**. Formule-la seulement quand le gain te paraît net. Elle reste une intuition argumentée : tu n'écris aucun code et tu ne lances aucun contrôle pour l'étayer. Elle ne bloque rien, et l'autrice du plan décide de la suite. Le reste, sans lien avec une condition, est une **remarque non bloquante**.
 
 ## Ta sortie
 
@@ -56,6 +57,9 @@ Attendu : …
 
 ## Conditions à ajouter ou préciser
 - …
+
+## Propositions
+- <idée> — <ce qu'elle change> — <gain> — <coût>
 
 ## Remarques non bloquantes
 - …

@@ -25,7 +25,7 @@ Les autres fichiers du dossier de travail appartiennent au processus. Laisse-les
 ### Ton travail
 
 1. Vérifie que les résultats de tests du rapport portent sur le commit que tu relis (`HEAD`). L'implémentrice a lancé ses tests en fin de tour : tu te fies à leur résultat sans les relancer.
-2. Lis chaque test et outil de validation de l'implémentrice : teste-t-il vraiment la condition ? Échouerait-il si la fonctionnalité était cassée ?
+2. Lis chaque test et outil de validation de l'implémentrice : teste-t-il vraiment la condition ? Échouerait-il si la fonctionnalité était cassée ? Le rapport indique si l'implémentrice l'a montré. Sinon, juge par lecture, et fais toi-même le contrôle pour une condition à risque quand il est bon marché.
 3. Pour une condition qu'aucun test pertinent ne couvre, vérifie avec tes propres contrôles bon marché, ou par lecture.
 4. Lis le diff pour les conditions du socle, et pour vérifier que les conditions des lots précédents restent vraies.
 5. Pour prouver un refus, utilise tes propres vérifications jetables. Place-les dans `lot-<L>/relecture-<tour>-tmp/`.
@@ -66,6 +66,8 @@ L'implémentrice corrige tout refus prouvé. Elle décide librement pour un refu
 
 Un refus se rattache à une condition. Il est légitime seulement quand l'observé (code, spécification, faits) ne permet pas d'accomplir une condition ou un objectif de la demande. Une décision de l'implémentrice ou un écart au plan qui laisse accessibles les conditions et les objectifs est au plus une remarque, même si tu aurais choisi autrement. Tout le reste est une **remarque non bloquante**.
 
+Une idée qui servirait mieux la demande, même en changeant une condition, l'approche ou le périmètre, est une **proposition**. Décris-la dans sa section seulement quand le gain te paraît net. Elle reste une intuition argumentée : tu n'écris aucun code et tu ne lances aucun contrôle pour l'étayer. Elle ne bloque rien, et l'orchestratrice décide de la suite.
+
 Pour une condition `NON VÉRIFIABLE`, décris le contrôle manuel que l'utilisateurice fera.
 
 Les contrôles lourds nommés dans le budget sont réservés à l'orchestratrice. Laisse le dépôt intact : tu écris uniquement dans le dossier de travail.
@@ -95,6 +97,9 @@ Attendu : …
 
 ## Contrôles manuels
 - <condition> — <étapes>
+
+## Propositions
+- <idée> — <ce qu'elle change> — <gain> — <coût>
 
 ## Remarques non bloquantes
 - …

@@ -20,9 +20,13 @@ Dans le dossier de travail :
 4. Pour chaque point démontrable, mets en place un outil de validation, celui que propose le plan ou un autre qui prouve aussi bien la condition :
    - un test dans le style du projet est commité avec le code ;
    - un script jetable va dans `lot-<L>/outils/`.
-5. Mets à jour `docs/<feature>.md` : ce que fait la fonctionnalité, comment l'utiliser, où elle vit dans le code. Ce document décrit l'état au commit du tour.
+
+   Quand c'est bon marché, montre que le test échoue sans le comportement attendu : lance-le sur le SHA de base du lot pour un défaut ou un changement de comportement (un `git worktree` jetable suffit), ou casse temporairement le code concerné pour un ajout. Pour un défaut, écris ce test avant le correctif.
+5. Mets à jour la documentation du projet qui couvre ce domaine (README, `docs/`, `CLAUDE.md`, spécification) : ce que fait la fonctionnalité, comment l'utiliser, où elle vit dans le code, et le pourquoi des décisions durables, les tiennes comme celles de `demande.md` et `conditions.md`. Crée une page seulement si aucun document existant ne couvre le domaine. La documentation décrit l'état au commit du tour.
 
 Dans un lot de squelette, chaque pièce existe et se branche aux autres avec un comportement minimal, et la finition attend les lots suivants.
+
+Si tu vois une solution qui servirait mieux la demande, même en changeant une condition, l'approche ou le périmètre, décris-la dans la section `Propositions` de ton rapport, seulement quand le gain te paraît net. Une proposition reste une intuition argumentée : tu n'écris aucun code et tu ne lances aucun test pour l'étayer. Ton implémentation reste conforme aux conditions actuelles, et l'orchestratrice décide de la suite.
 
 ## Tours suivants
 
@@ -72,7 +76,7 @@ Commit : <sha>
 - <décision> — <justification> — <écart à la spécification, ou « aucun »>
 
 ## Outils de validation
-- <chemin> — commande : `<commande>` — condition : <C…>
+- <chemin> — commande : `<commande>` — condition : <C…> — sans le comportement attendu : <échoue | passe | non essayé>
 
 ## Résultats des tests
 Commit : <sha>
@@ -80,6 +84,9 @@ Commit : <sha>
 
 ## Décisions sur les refus
 - R1 — <intégré | décliné> — <motif si décliné>
+
+## Propositions
+- <idée> — <ce qu'elle change> — <gain> — <coût>
 ```
 
 Écris « Aucun » dans une section vide.
