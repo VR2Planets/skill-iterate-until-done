@@ -34,7 +34,7 @@ Le raccourci `VR2Planets/skill-iterate-until-done` désigne le dépôt GitHub. S
 /iterate-until-done:iterate-until-done <fonctionnalité à implémenter>
 ```
 
-Un skill de plugin porte le nom de son plugin en préfixe. Le skill se lance seulement à ta demande (`disable-model-invocation: true`).
+Un skill de plugin porte le nom de son plugin en préfixe. Claude peut aussi te suggérer le skill quand une demande d'implémentation s'y prête. S'il le charge sans que tu l'aies demandé, il t'explique ce que le skill fera et attend ta confirmation avant de commencer.
 
 ## Mettre à jour
 
@@ -84,7 +84,8 @@ git -C "$HOME\src\skill-iterate-until-done" pull
 
 ## Maintenir le skill
 
-- `skills/iterate-until-done/SKILL.md` : les instructions de l'orchestratrice. Elle désigne les instructions des agentes par `${CLAUDE_SKILL_DIR}/prompts/`, que Claude Code remplace par le dossier du skill, en plugin comme en lien.
+- `skills/iterate-until-done/SKILL.md` : les instructions de l'orchestratrice. Elle désigne ses autres fichiers par `${CLAUDE_SKILL_DIR}`, que Claude Code remplace par le dossier du skill, en plugin comme en lien.
+- `skills/iterate-until-done/squelette.md` et `cloture.md` : les étapes que l'orchestratrice lit seulement quand elle en a besoin, le mode « squelette d'abord » et le rapport final. Ce découpage garde `SKILL.md` court, car Claude Code charge `SKILL.md` en entier à chaque lancement.
 - `skills/iterate-until-done/prompts/` : les instructions de la relectrice de plan, de l'implémentrice et de la relectrice d'implémentation.
 - `.claude-plugin/marketplace.json` et `.claude-plugin/plugin.json` : les manifestes du marketplace et du plugin. Avant de pousser, vérifie-les avec `claude plugin validate .` à la racine du dépôt.
 - `.claude/rules/personal-rules.md` : les règles d'écriture de l'auteur, que Claude Code applique aux sessions ouvertes dans ce dépôt.

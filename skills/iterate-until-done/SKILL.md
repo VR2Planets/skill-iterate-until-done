@@ -1,6 +1,6 @@
 ---
 name: iterate-until-done
-description: Implémente une fonctionnalité en autonomie. Cadrage avec l'utilisateurice conclu par un récapitulatif validé, découpage en lots avec un squelette d'abord si utile, puis conditions internes, plan, implémentation et relecture par des agentes indépendantes jusqu'à validation.
+description: À charger quand l'utilisateurice demande ce skill, ou demande d'implémenter une fonctionnalité en autonomie jusqu'à sa validation par des relectrices indépendantes. Quand une demande d'implémentation s'y prête sans le mentionner, suggère le skill à l'utilisateurice sans le charger.
 argument-hint: <fonctionnalité à implémenter>
 disable-model-invocation: false
 ---
@@ -9,7 +9,9 @@ disable-model-invocation: false
 
 Demande : $ARGUMENTS
 
-Tu es l'orchestratrice. Tu mènes cette demande jusqu'à une implémentation validée par une relectrice indépendante. L'utilisateurice intervient au cadrage, puis à l'essai du squelette quand le découpage en prévoit un. Le reste du temps, tu avances seule. Ne lance ce skill que si l'utilisateurice le demande ou le mentionne, suggère le s'il te semble adapté à une demande.
+Tu es l'orchestratrice. Tu mènes cette demande jusqu'à une implémentation validée par une relectrice indépendante. L'utilisateurice intervient au cadrage, puis à l'essai du squelette quand le découpage en prévoit un. Le reste du temps, tu avances seule.
+
+Si l'utilisateurice n'a pas demandé ce skill, explique-lui d'abord en deux phrases ce qu'il fera et ce qu'il coûte : plusieurs agentes et de nombreux tours. Attends sa confirmation avant le cadrage.
 
 ## Rôles
 
@@ -61,7 +63,7 @@ Tiens `journal.md` à jour à chaque étape, car il permet la reprise après une
    - contrôles lourds (compilation complète, suite de tests entière, scénario de bout en bout) : nomme-les, et demande s'ils sont autorisés.
 8. Fixe le **découpage**, avec ta recommandation :
    - **direct** : un seul lot. Il convient à une fonctionnalité locale, qui se juge sans être essayée.
-   - **squelette d'abord** : le lot 1 est une tranche fine qui traverse tout le système de bout en bout. Chaque composant existe et se branche aux autres avec un comportement minimal. Les lots suivants épaississent le squelette (contenu, textes, équilibrage, cas fins). Recommande ce mode quand la fonctionnalité traverse plusieurs composants, ou quand l'utilisateurice doit l'essayer pour la juger.
+   - **squelette d'abord** : le lot 1 est une tranche fine qui traverse tout le système de bout en bout. Chaque composant existe et se branche aux autres avec un comportement minimal. Les lots suivants épaississent le squelette (contenu, textes, équilibrage, cas fins). Recommande ce mode quand la fonctionnalité traverse plusieurs composants, ou quand l'utilisateurice doit l'essayer pour la juger. Si tu le retiens, lis `${CLAUDE_SKILL_DIR}/squelette.md` avant d'écrire les conditions.
 9. Si l'arbre de travail contient des modifications non commitées, demande quoi en faire.
 10. Écris le **récapitulatif** de ce que tu as compris, en quelques paragraphes, à la deuxième personne et en langage naturel :
     - le besoin, et pour quoi faire ;
@@ -78,7 +80,7 @@ Tiens `journal.md` à jour à chaque étape, car il permet la reprise après une
 
 Écris `conditions.md` à partir du récapitulatif validé et du cadrage, avant tout plan. Les conditions sont ton outil interne pour piloter les agentes : tu les gardes pour toi, et la relectrice de plan vérifie qu'elles traduisent fidèlement le récapitulatif. Une condition est un énoncé observable de ce qui est vrai quand le lot est terminé. Elle décrit uniquement un résultat attendu. Les moyens d'y arriver et de le vérifier (fichiers, structure du code, algorithme, bibliothèque, test, outil) appartiennent au plan. Par exemple, « la commande `list` affiche les entrées triées par date » est une condition, et « trier avec `sorted` dans `list.py` » est un moyen. Quand la demande porte elle-même sur un moyen, par exemple remplacer une bibliothèque, ce moyen est le résultat attendu. Quand la demande corrige un défaut, la première condition décrit le comportement attendu dans le scénario qui le déclenche.
 
-Numérote les conditions `C1`, `C2`… et range-les par lot. Un lot de squelette porte des conditions de structure : le chemin complet fonctionne de bout en bout, et chaque pièce est présente. Les détails de finition appartiennent aux lots suivants. Une condition acquise à un lot reste due aux lots suivants.
+Numérote les conditions `C1`, `C2`… et range-les par lot. Une condition acquise à un lot reste due aux lots suivants.
 
 Le socle s'applique à chaque lot :
 
@@ -102,7 +104,7 @@ Au premier lot, crée la branche `feature/<topic>`, ou suis la convention visibl
 
 Écris `lot-<L>/plan.md` à partir de l'approche du récapitulatif. Une implémentrice qui n'a pas vu cette conversation doit pouvoir l'exécuter : choix d'architecture, comportements attendus, décisions de produit ou de design, ordre des étapes, et les faits du code sur lesquels reposent ces choix. Cite un fichier, une fonction ou une ligne quand un fait fonde un choix. Le reste des moyens se décrit au niveau où l'implémentrice le retrouvera dans le code, car chaque détail prescrit est un détail de plus à relire et à contredire. Reprends les remarques non bloquantes des lots précédents qui concernent ce lot.
 
-Pour chaque point démontrable, le plan propose son critère de validation et l'outil qui le vérifie, existant ou à développer, dans le respect du budget. Le plan d'un lot de squelette propose en général un test de bout en bout, que les lots suivants étendent. Pour un défaut, le plan commence par un test qui reproduit le scénario. Un point sans démonstration possible reste dans le plan : la relecture le jugera au mieux.
+Pour chaque point démontrable, le plan propose son critère de validation et l'outil qui le vérifie, existant ou à développer, dans le respect du budget. Pour un défaut, le plan commence par un test qui reproduit le scénario. Un point sans démonstration possible reste dans le plan : la relecture le jugera au mieux.
 
 Les moyens du plan sont des suggestions. L'implémentrice peut en choisir d'autres qui atteignent les mêmes conditions, à condition de déclarer l'écart. Seules les conditions engagent.
 
@@ -131,14 +133,14 @@ Lance l'implémentrice et traite son statut :
 
 À chaque tour :
 
-1. Si le budget autorise des contrôles lourds, lance-les en arrière-plan (`Bash`, `run_in_background: true`) sur le commit à relire.
+1. Si le budget autorise des contrôles lourds, lance-les en arrière-plan (`Bash`, `run_in_background: true`) sur le commit à relire. Quand l'outil verrouille le projet ou son dossier de build (éditeur Unity, démon Gradle…), lance-les après la relecture, car ils bloqueraient les contrôles de la relectrice.
 2. Lance la relectrice. Tour 1 du lot : une relectrice neuve, pour une relecture complète. Tours suivants : la même relectrice, pour une relecture ciblée sur le correctif.
 3. Lis `relecture-<N>.md` et attends la fin des contrôles lourds. Un échec de contrôle lourd devient un `REFUS PROUVÉ`, avec sa sortie comme preuve.
 4. Applique la règle de verdict. S'il reste un refus, renvoie la relecture et les échecs à l'implémentrice. Tours 1 à 3 : reprends la même implémentrice (`SendMessage` vers son identifiant). Tours 4 et 5 : lance une implémentrice neuve, pour sortir d'un éventuel blocage.
 5. Lis `rapport-implementation-<N>.md` et copie chaque refus décliné, son constat et son motif dans `refus-declines.md`.
 6. Si le code a changé, lance le tour suivant.
 
-Le lot est accepté quand la règle de verdict accepte la dernière relecture et que les contrôles lourds ont réussi sur le même commit. Passe alors au lot suivant, ou à l'essai après un lot de squelette.
+Le lot est accepté quand la règle de verdict accepte la dernière relecture et que les contrôles lourds ont réussi sur le même commit. Passe alors au lot suivant, ou à l'essai de `squelette.md` après un lot de squelette.
 
 ## Règle de verdict
 
@@ -165,39 +167,9 @@ Une proposition est une idée qui servirait mieux la demande, même si elle chan
 - Une proposition qui respecte le récapitulatif peut entrer dans le plan du lot en cours ou d'un lot suivant, à ton choix, avec les conditions qu'elle demande.
 - Les autres attendent l'essai ou le rapport final, avec ta recommandation. Quand l'une d'elles remet en cause l'approche et que le gain te semble majeur, tu peux t'arrêter pour la soumettre à l'utilisateurice avant de continuer.
 
-## 4. Essai du squelette
+## 4. Clôture
 
-Après l'acceptation du lot de squelette, arrête-toi et remets à l'utilisateurice :
-
-- ce que fait le squelette, et ce qui manque volontairement ;
-- comment l'essayer : commandes, scénario à suivre ;
-- ce que chaque lot de finition prévu apportera, en langage naturel ;
-- les propositions en attente, avec ta recommandation.
-
-Note ses retours dans `demande.md`. Ajuste avec elle le récapitulatif et la liste des lots de finition. Mets ensuite les conditions à jour, puis reprends la boucle seule.
-
-## 5. Clôture
-
-Remets le rapport final à l'utilisateurice dans la conversation :
-
-1. Verdict : accepté, arrêt au plafond, ou arrêt sur blocage, et le lot concerné.
-2. Ce qui a été livré, en langage naturel, en suivant le récapitulatif point par point : ce qui est fait, ce qui s'en écarte et pourquoi.
-3. Après un arrêt, les verrous : regroupe les refus restants et la question du blocage en verrous, pour que l'utilisateurice arbitre sans lire les fichiers des agentes. Pour chaque verrou :
-   - observé : ce que montrent le code ou la spécification ;
-   - voulu : ce que demande le récapitulatif ;
-   - nœud : pourquoi les deux ne tiennent pas ensemble ;
-   - pistes : les options, avec ta recommandation.
-4. Propositions : celles qui attendent l'utilisateurice, chacune avec ce qu'elle change, son gain, son coût et ta recommandation, puis en une ligne celles que tu as adoptées.
-5. Contrôles manuels à faire, avec leurs étapes : conditions `NON VÉRIFIABLE` et `VALIDÉE PAR LECTURE`, décrites par ce que l'utilisateurice vérifiera.
-6. Points à arbitrer : refus déclinés (constat de la relectrice et motif de l'autrice), décisions que tu as prises seule, conditions retirées ou assouplies après la première relecture de plan, écarts au plan déclarés par l'implémentrice, décisions de l'implémentrice avec leur justification et leurs écarts à la spécification, remarques non bloquantes restantes.
-7. Résultat des contrôles lourds, ou mention de leur absence.
-8. Branche et SHA de base du premier lot.
-9. Métriques : relectures de plan et tours d'implémentation par lot ; refus prouvés trouvés par la relecture de plan, par la relecture complète, par les relectures ciblées et par les contrôles lourds ; refus non prouvés intégrés et déclinés ; tokens et durée cumulés des agentes.
-10. En annexe, le tableau des conditions avec leur état et leur preuve, pour qui veut vérifier.
-
-Après une acceptation, supprime `docs/plans/<topic>/`, car `S5` a déjà fait entrer dans la documentation du projet les décisions qui doivent durer. Après un arrêt, laisse le dossier en place pour la reprise.
-
-Laisse la branche telle quelle : merge, push et pull request reviennent à l'utilisateurice. Le rapport au backlog revient à toi seule.
+À l'acceptation du dernier lot, ou à un arrêt, lis `${CLAUDE_SKILL_DIR}/cloture.md` et suis-le. Chaque mention du rapport final dans ce fichier y renvoie.
 
 ## Lancer une agente
 
